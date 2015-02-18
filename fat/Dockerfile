@@ -2,7 +2,6 @@ FROM ubuntu:14.04
 
 MAINTAINER Jay Luker <jay_luker@harvard.edu>
 
-ENV DEBIAN_FRONTEND noninteractive
 ENV POSTGRES_VERSION 9.3
 
 # add nodejs and recommended ruby repos
@@ -25,8 +24,6 @@ RUN apt-get install -y \
     && apt-get clean \
     && rm -Rf /var/cache/apt
 
-ENV DEBIAN_FRONTEND dialog
-
 RUN gem install bundler --version 1.7.10
 
 # Set the locale to avoid active_model_serializers bundler install failure
@@ -39,7 +36,7 @@ ENV LC_ALL en_US.UTF-8
 RUN cd /opt \
     && git clone https://github.com/instructure/canvas-lms.git \
     && cd /opt/canvas-lms \
-    && bundle install --path vendor/bundle --without="sqlite mysql development_and_test"
+    && bundle install --path vendor/bundle --without="sqlite mysql"
 
 # config setup
 RUN cd /opt/canvas-lms \

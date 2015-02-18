@@ -9,7 +9,7 @@ canvas:
         - "3000"
     # Uncomment if you need to alter the defaults
     # environment:
-        # RAILS_ENV: "development"
+        # RAILS_ENV: "production"
         # DBUSER: "canvas"
         # DBPASS: "canvas"
         # POSTGRESQL_DATA: "/path/to/your/data/volume"

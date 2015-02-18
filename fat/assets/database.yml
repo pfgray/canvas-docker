@@ -7,34 +7,23 @@ test:
   username: postgres
   timeout: 5000
 
-development:
+login: &login
   adapter: postgresql
   encoding: utf8
-  database: canvas_development
   timeout: 5000
-  password: <%= ENV['DBPASS'] %>
   username: <%= ENV['DBUSER'] %>
+  password: <%= ENV['DBPASS'] %>
+
+development:
+  <<: *login
+  database: canvas_development
   queue:
-    adapter: postgresql
-    encoding: utf8
+    <<: *login
     database: canvas_queue_development
-    timeout: 5000
-    password: <%= ENV['DBPASS'] %>
-    username: <%= ENV['DBUSER'] %>
 
 production:
-  adapter: postgresql
-  encoding: utf8
+  <<: *login
   database: canvas_production
-  host: localhost
-  username: <%= ENV['DBUSER'] %>
-  password: <%= ENV['DBPASS'] %>
-  timeout: 5000
   queue:
-    adapter: postgresql
-    encoding: utf8
+    <<: *login
     database: canvas_queue_production
-    host: localhost
-    username: <%= ENV['DBUSER'] %>
-    password: <%= ENV['DBPASS'] %>
-    timeout: 5000

@@ -2,8 +2,6 @@ FROM ubuntu:14.04
 
 MAINTAINER Jay Luker <jay_luker@harvard.edu>
 
-ENV DEBIAN_FRONTEND noninteractive
-
 # add nodejs and recommended ruby repos
 RUN apt-get update \
     && apt-get -y install software-properties-common python-software-properties \
@@ -18,8 +16,6 @@ RUN apt-get -y install ruby1.9.3 \
     libxmlsec1 build-essential openjdk-7-jre unzip \
     python g++ make git-core nodejs postgresql-client
 
-ENV DEBIAN_FRONTEND newt
-
 RUN gem install bundler --version 1.7.10
 
 # Set the locale to avoid active_model_serializers bundler install failure
@@ -32,7 +28,7 @@ ENV LC_ALL en_US.UTF-8
 RUN cd /opt \
     && git clone https://github.com/instructure/canvas-lms.git \
     && cd /opt/canvas-lms \
-    && bundle install --path vendor/bundle --without="sqlite mysql development_and_test"
+    && bundle install --path vendor/bundle --without="sqlite mysql"
 
 # config setup
 RUN cd /opt/canvas-lms \
@@ -49,7 +45,7 @@ RUN chmod 755 /opt/canvas-lms/run.sh
 RUN gem install foreman
 
 RUN cd /opt/canvas-lms \
-    &&  npm install --unsafe-perm \
+    && npm install --unsafe-perm \
     && bundle exec rake canvas:compile_assets
 
 CMD /opt/canvas-lms/run.sh

@@ -17,10 +17,8 @@ if [ ! -d $POSTGRESQL_DATA ]; then
     ln -s /etc/ssl/private/ssl-cert-snakeoil.key $POSTGRESQL_DATA/server.key
 fi
 
-sudo -u postgres psql <<< "CREATE USER $DBUSER WITH SUPERUSER;"
+sudo -u postgres psql <<< "CREATE USER $DBUSER WITH CREATEDB;"
 sudo -u postgres psql <<< "ALTER USER $DBUSER WITH PASSWORD '$DBPASS';"
-sudo -u postgres psql <<< "CREATE DATABASE canvas_$RAILS_ENV OWNER $DBUSER"
-sudo -u postgres psql <<< "CREATE DATABASE canvas_queue_$RAILS_ENV OWNER $DBUSER"
 
 cd /opt/canvas-lms \
     && bundle exec rake db:initial_setup

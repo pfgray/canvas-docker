@@ -4,43 +4,28 @@ test:
   encoding: utf8
   database: canvas_test
   host: localhost
-  username: canvas
+  username: postgres
   timeout: 5000
 
-development:
+login: &login
   adapter: postgresql
   encoding: utf8
-  database: canvas_development
+  timeout: 5000
+  username: <%= ENV['DBUSER'] %>
+  password: <%= ENV['DBPASS'] %>
   host: <%= ENV['PG_PORT_5432_TCP_ADDR'] %>
   port: <%= ENV['PG_PORT_5432_TCP_PORT'] %>
-  username: postgres
-  password: <%= ENV['DBPASS'] %>
-  timeout: 5000
+
+production:
+  <<: login
+  database: canvas_production
   queue:
-    adapter: postgresql
-    encoding: utf8
+    <<: login
+    database: canvas_queue_production
+
+development:
+  <<: login
+  database: canvas_development
+  queue:
+    <<: login
     database: canvas_queue_development
-    host: <%= ENV['PG_PORT_5432_TCP_ADDR'] %>
-    port: <%= ENV['PG_PORT_5432_TCP_PORT'] %>
-    username: postgres
-    password: <%= ENV['DBPASS'] %>
-    timeout: 5000
-    
-#production:
-#  adapter: postgresql
-#  encoding: utf8
-#  database: canvas_production
-#  host: <%= ENV['PG_PORT_5432_TCP_ADDR'] %>
-#  port: <%= ENV['PG_PORT_5432_TCP_PORT'] %>
-#  username: canvas
-#  password: <%= ENV['DBPASS'] %>
-#  timeout: 5000
-#  queue:
-#    adapter: postgresql
-#    encoding: utf8
-#    database: canvas_queue_production
-#    host: <%= ENV['PG_PORT_5432_TCP_ADDR'] %>
-#    port: <%= ENV['PG_PORT_5432_TCP_PORT'] %>
-#    username: canvas
-#    password: <%= ENV['DBPASS'] %>
-#    timeout: 5000
