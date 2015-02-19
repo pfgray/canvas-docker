@@ -11,8 +11,8 @@ login: &login
   adapter: postgresql
   encoding: utf8
   timeout: 5000
-  username: <%= ENV['DBUSER'] %>
-  password: <%= ENV['DBPASS'] %>
+  username: "canvas"
+#  password: "canvas"
 
 development:
   <<: *login
